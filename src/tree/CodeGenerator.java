@@ -243,9 +243,10 @@ public class CodeGenerator implements DeclVisitor, StatementTransform<Code>,
      */
     public Code visitRepeatNode(StatementNode.RepeatNode node) {
         beginGen("Repeat");
-        /* Generate the coe for the body of the loop. */
-        Code code = node.getLoopStmt().genCode(this);
+        Code code = new Code();
         code.genComment("repeat" + node.getCondition() + ":");
+        /* Generate the code for the body of the loop. */
+        code.append(node.getLoopStmt().genCode(this));
         /* Generate the code to evaluate the condition. */
         code.append(node.getCondition().genCode(this));
         /* If the condition is false we want to branch back to the location
