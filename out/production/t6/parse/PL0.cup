@@ -155,8 +155,7 @@ non terminal
                               ActualParamList;
 non terminal List<StatementNode> StatementList;
 non terminal StatementNode    Statement,
-                              CompoundStatement,
-                              RepeatStatement;
+                              CompoundStatement;
 non terminal ExpNode          Condition,
                               RelCondition,
                               Exp,
@@ -454,15 +453,14 @@ Statement ::= KW_WHILE Condition:c KW_DO Statement:s
         {: 
             RESULT = new StatementNode.CallNode(idxleft, id);
         :}
+    | KW_REPEAT StatementList:sl KW_UNTIL Condition:c
+        {:
+            RESULT = new StatementNode.RepeatNode(cxleft,
+                    new StatementNode.ListNode(slxleft, sl), c);
+        :}
     |  error:loc
         {: 
             RESULT = new StatementNode.ErrorNode(locxleft);
-        :}
-    ;
-
-RepeatStatement ::= KW_REPEAT StatementList:sl KW_UNTIL Condition:c
-        {:
-            RESULT = new StatementNode.RepeatNode(slxleft, sl, c);
         :}
     ;
 

@@ -243,24 +243,18 @@ public class CodeGenerator implements DeclVisitor, StatementTransform<Code>,
      */
     public Code visitRepeatNode(StatementNode.RepeatNode node) {
         beginGen("Repeat");
-        Code code = new Code();
+        /* Generate the coe for the body of the loop. */
+        Code code = node.getLoopStmt().genCode(this);
         code.genComment("repeat" + node.getCondition() + ":");
         /* Generate the code to evaluate the condition. */
         code.append(node.getCondition().genCode(this));
-        /* Generate the code for the loop body. */
-        Code bodyCode = node.getLoopStmt().genCode(this);
-        /* Add a branch over the loop body on true.
-         * The offset is the size of the loop body code plus
-         * the size of the branch to follow the body.
-         */
-        code.genJumpIfTrue(bodyCode.size() + Code.SIZE_JUMP_ALWAYS);
-        /* Append the code for the body */
-        code.append(bodyCode);
-        /* Add a branch back to the condition.
-         * The offset is the total size of the current code plus the
-         * size of a Jump Always (being generated).
-         */
-        code.genJumpAlways(-(code.size() + Code.SIZE_JUMP_ALWAYS));
+        /* If the condition is false we want to branch back to the location
+        * of the start of the REPEAT loop.
+        * The branch is backwards and hence the branch offset is negative.
+        * The size of the offset is the size of the code generated for the
+        * loop body plus condition plus the size of the code for the
+        * JumpIfFalse itself (which is being generated). */
+        code.genJumpIfFalse(-(code.size() + Code.SIZE_JUMP_IF_FALSE));
         endGen("Repeat");
         return code;
     }
