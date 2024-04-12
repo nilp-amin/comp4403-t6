@@ -161,6 +161,9 @@ Letter  = [a-zA-Z]
 ","     { return makeToken(CUPToken.COMMA); }
 "["     { return makeToken(CUPToken.LBRACKET); }
 "]"     { return makeToken(CUPToken.RBRACKET); }
+"!"     { return makeToken(CUPToken.LOG_NOT); }
+"&&"`   { return makeToken(CUPToken.LOG_AND); }
+"||"    { return makeToken(CUPToken.LOG_OR); }
 "begin"     { return makeToken(CUPToken.KW_BEGIN); }
 "call"      { return makeToken(CUPToken.KW_CALL); }
 "const"     { return makeToken(CUPToken.KW_CONST); }

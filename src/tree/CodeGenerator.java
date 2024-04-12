@@ -352,6 +352,38 @@ public class CodeGenerator implements DeclVisitor, StatementTransform<Code>,
                 code = genArgs(right, left);
                 code.generateOp(Operation.LESSEQ);
             }
+            case AND_OP -> {
+                /* Want to short circuit so if P then Q else false is implemented. */
+                // generate code to evaluate the left argument
+                code = left.genCode(this);
+                // duplicate top of stack so that value of first operand is left after branch
+                code.generateOp(Operation.DUP);
+                // generate the code of the second argument separately
+                Code rightArgCode = new Code();
+                // pop the redundant (true) first operand from the stack
+                rightArgCode.generateOp(Operation.POP);
+                // generate code to evaluate the right operand
+                rightArgCode.append(right.genCode(this));
+                // generate the code to jump over the second argument evaluation
+                code.genJumpIfFalse(rightArgCode.size());
+                code.append(rightArgCode);
+            }
+            case OR_OP -> {
+                /* Want to short circuit so if P then Q else false is implemented. */
+                // generate code to evaluate the left argument
+                code = left.genCode(this);
+                // duplicate the top of stack so that value of first operand is left after branch
+                code.generateOp(Operation.DUP);
+                // generate the code of the second argument separately
+                Code rightArgCode = new Code();
+                // pop the redundant (false) first operand from the stack
+                rightArgCode.generateOp(Operation.POP);
+                // generate code to evaluate the right operand
+                rightArgCode.append(right.genCode(this));
+                // generate the code to jump over the second argument evaluation
+                code.genJumpIfTrue(rightArgCode.size());
+                code.append(rightArgCode);
+            }
             default -> {
                 errors.fatal("PL0 Internal error: Unknown operator", node.getLocation());
                 code = null;
@@ -367,10 +399,15 @@ public class CodeGenerator implements DeclVisitor, StatementTransform<Code>,
         beginGen("Unary");
         Code code = node.getArg().genCode(this);
         switch (node.getOp()) {
-            case NEG_OP ->
+            case NEG_OP -> {
                 code.generateOp(Operation.NEGATE);
-            default ->
+            }
+            case NOT_OP -> {
+                code.genBoolNot();
+            }
+            default -> {
                 errors.fatal("PL0 Internal error: Unknown operator", node.getLocation());
+            }
         }
         endGen("Unary");
         return code;

@@ -10,13 +10,14 @@ public interface CUPToken {
   /* terminals */
   public static final int DIVIDE = 8;
   public static final int LBRACKET = 19;
-  public static final int KW_PROCEDURE = 28;
+  public static final int KW_PROCEDURE = 31;
   public static final int EQUALS = 9;
-  public static final int KW_DO = 24;
-  public static final int KW_REPEAT = 35;
+  public static final int LOG_OR = 23;
+  public static final int KW_DO = 27;
+  public static final int KW_REPEAT = 38;
   public static final int LPAREN = 17;
   public static final int GREATER = 14;
-  public static final int KW_CONST = 23;
+  public static final int KW_CONST = 26;
   public static final int LESS = 13;
   public static final int MINUS = 6;
   public static final int RPAREN = 18;
@@ -26,28 +27,30 @@ public interface CUPToken {
   public static final int LEQUALS = 11;
   public static final int NEQUALS = 10;
   public static final int COMMA = 16;
-  public static final int KW_WRITE = 34;
+  public static final int KW_WRITE = 37;
   public static final int PLUS = 5;
   public static final int ASSIGN = 4;
-  public static final int KW_TYPE = 31;
-  public static final int KW_CALL = 22;
+  public static final int KW_TYPE = 34;
+  public static final int KW_CALL = 25;
   public static final int EOF = 0;
   public static final int RBRACKET = 20;
-  public static final int KW_BEGIN = 21;
-  public static final int KW_UNTIL = 36;
+  public static final int KW_BEGIN = 24;
+  public static final int KW_UNTIL = 39;
   public static final int error = 1;
-  public static final int NUMBER = 39;
-  public static final int KW_IF = 27;
+  public static final int NUMBER = 42;
+  public static final int KW_IF = 30;
   public static final int TIMES = 7;
   public static final int COLON = 3;
-  public static final int ILLEGAL = 37;
-  public static final int KW_END = 26;
-  public static final int KW_ELSE = 25;
-  public static final int KW_READ = 29;
-  public static final int KW_VAR = 32;
-  public static final int KW_WHILE = 33;
-  public static final int KW_THEN = 30;
-  public static final int IDENTIFIER = 38;
+  public static final int ILLEGAL = 40;
+  public static final int KW_END = 29;
+  public static final int KW_ELSE = 28;
+  public static final int LOG_NOT = 21;
+  public static final int LOG_AND = 22;
+  public static final int KW_READ = 32;
+  public static final int KW_VAR = 35;
+  public static final int KW_WHILE = 36;
+  public static final int KW_THEN = 33;
+  public static final int IDENTIFIER = 41;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
@@ -70,6 +73,9 @@ public interface CUPToken {
   "RPAREN",
   "LBRACKET",
   "RBRACKET",
+  "LOG_NOT",
+  "LOG_AND",
+  "LOG_OR",
   "KW_BEGIN",
   "KW_CALL",
   "KW_CONST",

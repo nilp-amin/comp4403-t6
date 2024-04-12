@@ -96,6 +96,9 @@ terminal
     RPAREN,       /* ) */
     LBRACKET,     /* [ */
     RBRACKET,     /* ] */
+    LOG_NOT,      /* ! */
+    LOG_AND,      /* && */
+    LOG_OR,       /* || */
     KW_BEGIN,     /* begin */
     KW_CALL,      /* call */
     KW_CONST,     /* const */
@@ -166,6 +169,7 @@ non terminal Operator         Relation,
                               MulOp,
                               UnaryOperator;
 non terminal ExpNode          LValue;
+non terminal Operator         LogOp;
 
 
 /**-------------------------------------------------------------
@@ -484,8 +488,12 @@ LValue ::= IDENTIFIER:id
 
 /* To allow for adding logical expressions. */
 Condition ::= RelCondition:e
-        {: 
+        {:
             RESULT = e;
+        :}
+    |   Condition:e1 LogOp:op RelCondition:e2
+        {:
+            RESULT = new ExpNode.BinaryNode(opxleft, op, e1, e2);
         :}
     ;
 
@@ -569,6 +577,16 @@ MulOp ::= TIMES
         :}
     ;
 
+LogOp ::= LOG_AND
+        {:
+            RESULT = Operator.AND_OP;
+        :}
+    |   LOG_OR
+        {:
+            RESULT = Operator.OR_OP;
+        :}
+    ;
+
 Factor ::= PLUS Factor:e
         {:
             RESULT = e; 
@@ -595,6 +613,10 @@ Factor ::= PLUS Factor:e
 UnaryOperator ::= MINUS
         {:
             RESULT = Operator.NEG_OP;
+        :}
+    |   LOG_NOT
+        {:
+            RESULT = Operator.NOT_OP;
         :}
     ;
 

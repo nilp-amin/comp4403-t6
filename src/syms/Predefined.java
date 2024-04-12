@@ -51,6 +51,9 @@ public class Predefined {
                 Type.TRUE_VALUE);
         predefined.addOperator(Operator.EQUALS_OP, ErrorHandler.NO_LOCATION, LOGICAL_BINARY);
         predefined.addOperator(Operator.NEQUALS_OP, ErrorHandler.NO_LOCATION, LOGICAL_BINARY);
+        predefined.addOperator(Operator.AND_OP, ErrorHandler.NO_LOCATION, LOGICAL_BINARY);
+        predefined.addOperator(Operator.OR_OP, ErrorHandler.NO_LOCATION, LOGICAL_BINARY);
+        predefined.addOperator(Operator.NOT_OP, ErrorHandler.NO_LOCATION, LOGICAL_UNARY);
         predefined.addOperator(Operator.NEG_OP, ErrorHandler.NO_LOCATION, ARITHMETIC_UNARY);
         predefined.addOperator(Operator.ADD_OP, ErrorHandler.NO_LOCATION, ARITHMETIC_BINARY);
         predefined.addOperator(Operator.SUB_OP, ErrorHandler.NO_LOCATION, ARITHMETIC_BINARY);
