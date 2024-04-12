@@ -245,10 +245,10 @@ public class CodeGenerator implements DeclVisitor, StatementTransform<Code>,
         beginGen("Repeat");
         Code code = new Code();
         code.genComment("repeat" + node.getCondition() + ":");
-        /* Generate the code for the body of the loop. */
-        code.append(node.getLoopStmt().genCode(this));
         /* Generate the code to evaluate the condition. */
         code.append(node.getCondition().genCode(this));
+        /* Generate the code for the body of the loop. */
+        code.append(node.getLoopStmt().genCode(this));
         /* If the condition is false we want to branch back to the location
         * of the start of the REPEAT loop.
         * The branch is backwards and hence the branch offset is negative.
